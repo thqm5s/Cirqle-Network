@@ -44,7 +44,7 @@ CIRQLE was created as a learning experiment and has never been publicly launched
 The project was an opportunity to experiment with web technologies, coding workflows and AI-assisted tools as part of my learning process.
 
 ---
-![CIRQLE Website Preview](C:\Users\thoma\OneDrive\Pictures\Screenshots)<img width="1904" height="957" alt="cirqle-preview" src="https://github.com/user-attachments/assets/44361696-d7d9-4089-8380-b758e3e09eed" />
+![CIRQLE Website Preview]<img width="1904" height="957" alt="cirqle-preview" src="https://github.com/user-attachments/assets/44361696-d7d9-4089-8380-b758e3e09eed" />
 
 ---
 
