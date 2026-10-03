@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard — Inner Cirqle</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-color: #f4f4f2;
+        --text-main: #080808;
+        --text-muted: #6a6a68;
+        --glass-bg: rgba(255, 255, 255, 0.6);
+        --glass-border: rgba(255, 255, 255, 0.8);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+      }
+      body {
+        font-family: "DM Sans", sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        min-height: 100vh;
+      }
+      nav {
+        position: sticky;
+        top: 0;
+        padding: 20px 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(244, 244, 242, 0.8);
+        backdrop-filter: blur(10px);
+        z-index: 100;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      .logo {
+        font-family: "Syne";
+        font-weight: 800;
+        font-size: 22px;
+        text-transform: uppercase;
+        letter-spacing: -0.05em;
+      }
+      header {
+        padding: 60px 5% 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      header h1 {
+        font-family: "Syne";
+        font-size: 42px;
+        text-transform: uppercase;
+        letter-spacing: -0.03em;
+      }
+      .main-content {
+        padding: 0 5% 100px;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        gap: 40px;
+      }
+      .project-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .project-card {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        padding: 30px;
+        transition: all 0.3s;
+        cursor: pointer;
+      }
+      .project-card:hover {
+        transform: translateY(-4px);
+        background: #fff;
+      }
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 15px;
+      }
+      .card-header h3 {
+        font-family: "Syne";
+        font-size: 20px;
+        text-transform: uppercase;
+      }
+      .status-tag {
+        font-size: 10px;
+        font-weight: 700;
+        padding: 4px 10px;
+        background: #000;
+        color: #fff;
+        border-radius: 100px;
+        text-transform: uppercase;
+      }
+      .project-desc {
+        font-size: 15px;
+        color: var(--text-muted);
+        margin-bottom: 20px;
+        line-height: 1.6;
+      }
+      .sidebar-box {
+        background: #000;
+        color: #fff;
+        padding: 30px;
+        border-radius: 24px;
+        position: sticky;
+        top: 120px;
+      }
+      .btn-highlight {
+        width: 100%;
+        padding: 15px;
+        background: #fff;
+        color: #000;
+        border-radius: 100px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: 700;
+        display: block;
+      }
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">Cirqle</div>
+      <div class="user-badge">
+        <a
+          href="profile.html"
+          style="
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+          "
+        >
+          <span>My Profile</span>
+          <div
+            class="avatar-sm"
+            style="
+              background: #000;
+              color: #fff;
+              width: 32px;
+              height: 32px;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 12px;
+            "
+          >
+            ME
+          </div>
+        </a>
+      </div>
+    </nav>
+
+    <header>
+      <h1>Live Projects</h1>
+      <p style="color: #6a6a68">Collaboration in real-time.</p>
+    </header>
+
+    <main class="main-content">
+      <section class="project-grid" id="projectGrid">
+        <p style="color: #6a6a68">Loading projects...</p>
+      </section>
+
+      <aside>
+        <div class="sidebar-box">
+          <h3 style="font-family: &quot;Syne&quot;; margin-bottom: 15px">
+            Spotlight Your Work
+          </h3>
+          <p style="font-size: 14px; opacity: 0.7; margin-bottom: 25px">
+            Need feedback or help? Share your project with the community.
+          </p>
+          <a href="create-project.html" class="btn-highlight"
+            >Share My Project</a
+          >
+        </div>
+      </aside>
+    </main>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import {
+        getAuth,
+        onAuthStateChanged,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+      import {
+        getFirestore,
+        collection,
+        query,
+        orderBy,
+        onSnapshot,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBzDVL-3tQgyfXOJqX5WvkYsEoBq4PBMzM",
+        authDomain: "cirqle-2c3b2.firebaseapp.com",
+        projectId: "cirqle-2c3b2",
+        storageBucket: "cirqle-2c3b2.firebasestorage.app",
+        messagingSenderId: "12313980360",
+        appId: "1:12313980360:web:c262002952f3618bd464fd",
+        measurementId: "G-WS5HN1X6B2",
+      };
+
+      // Initialisation de Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      const auth = getAuth(app); // On récupère l'outil d'authentification
+
+      // VERIFICATION : Est-ce que l'utilisateur est bien connecté ?
+      onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+          window.location.href = "auth.html";
+        } else {
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+
+            // Sécurité : Si le paiement n'est pas validé, retour à Stripe
+            if (userData.hasPaid !== true) {
+              window.location.href =
+                "https://buy.stripe.com/test_dRmaEWgVuaVzeE1bGU5Rm00";
+              return;
+            }
+            // Sinon, le reste du code de ton dashboard s'exécute normalement
+          } else {
+            window.location.href = "auth.html";
+          }
+        }
+      });
+
+      const grid = document.getElementById("projectGrid");
+
+      const q = query(collection(db, "projects"), orderBy("createdAt", "desc"));
+
+      onSnapshot(q, (snapshot) => {
+        grid.innerHTML = "";
+        if (snapshot.empty) {
+          grid.innerHTML = "<p>No projects yet. Be the first!</p>";
+          return;
+        }
+        snapshot.forEach((doc) => {
+          const p = doc.data();
+          const card = `
+                    <a href="project-detail.html?id=${doc.id}" style="text-decoration: none; color: inherit;">
+                        <div class="project-card">
+                            <div class="card-header">
+                                <h3>${p.title}</h3>
+                                <span class="status-tag">${p.category}</span>
+                            </div>
+                            <p class="project-desc">${p.vision.substring(0, 160)}...</p>
+                            <div style="font-size: 12px; font-weight: 700;">By ${p.founder}</div>
+                        </div>
+                    </a>`;
+          grid.innerHTML += card;
+        });
+      });
+    </script>
+  </body>
+</html>

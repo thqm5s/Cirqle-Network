@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spotlight your Project — Cirqle</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-color: #f4f4f2;
+        --text-main: #080808;
+        --glass-bg: rgba(255, 255, 255, 0.7);
+      }
+      body {
+        font-family: "DM Sans", sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        margin: 0;
+        padding: 0;
+      }
+      nav {
+        padding: 30px 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .logo {
+        font-family: "Syne";
+        font-weight: 800;
+        font-size: 22px;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: #000;
+      }
+      .container {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 0 5%;
+      }
+      .form-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(10px);
+        padding: 40px;
+        border-radius: 32px;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      }
+      h1 {
+        font-family: "Syne";
+        text-transform: uppercase;
+        font-size: 32px;
+        margin-bottom: 30px;
+        letter-spacing: -0.02em;
+      }
+      .input-group {
+        margin-bottom: 20px;
+      }
+      label {
+        display: block;
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+      input,
+      textarea,
+      select {
+        width: 100%;
+        padding: 15px;
+        border-radius: 12px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        background: rgba(255, 255, 255, 0.5);
+        font-family: inherit;
+        box-sizing: border-box;
+        font-size: 16px;
+      }
+      textarea {
+        resize: none;
+      }
+      .btn-submit {
+        background: #000;
+        color: #fff;
+        border: none;
+        padding: 18px;
+        border-radius: 100px;
+        width: 100%;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: transform 0.2s;
+      }
+      .btn-submit:hover {
+        transform: scale(1.02);
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="dashboard.html" class="logo">Cirqle</a>
+      <a
+        href="dashboard.html"
+        style="text-decoration: none; color: #666; font-size: 14px"
+        >← Cancel</a
+      >
+    </nav>
+
+    <div class="container">
+      <div class="form-card">
+        <h1>Spotlight your work</h1>
+        <form id="projectForm">
+          <div class="input-group">
+            <label>Project Title</label>
+            <input
+              type="text"
+              id="p_title"
+              placeholder="e.g. NeoPay"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label>Main Goal / Need</label>
+            <select id="p_category">
+              <option>Need: Feedback</option>
+              <option>Need: Beta Testers</option>
+              <option>Need: Technical Advice</option>
+              <option>Need: Connections</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label>Full Pitch (The Vision)</label>
+            <textarea
+              id="p_vision"
+              placeholder="Explain what you are building and why..."
+              style="height: 120px"
+              required
+            ></textarea>
+          </div>
+          <div class="input-group">
+            <label>Specific Ask (Where you are stuck)</label>
+            <textarea
+              id="p_problem"
+              placeholder="What exactly do you need help with right now?"
+              style="height: 100px"
+              required
+            ></textarea>
+          </div>
+          <button type="submit" class="btn-submit">Publish to Cirqle</button>
+        </form>
+      </div>
+    </div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        addDoc,
+        serverTimestamp,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBzDVL-3tQgyfXOJqX5WvkYsEoBq4PBMzM",
+        authDomain: "cirqle-2c3b2.firebaseapp.com",
+        projectId: "cirqle-2c3b2",
+        storageBucket: "cirqle-2c3b2.firebasestorage.app",
+        messagingSenderId: "12313980360",
+        appId: "1:12313980360:web:c262002952f3618bd464fd",
+        measurementId: "G-WS5HN1X6B2",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      document
+        .getElementById("projectForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          try {
+            await addDoc(collection(db, "projects"), {
+              title: document.getElementById("p_title").value,
+              category: document.getElementById("p_category").value,
+              vision: document.getElementById("p_vision").value,
+              problem: document.getElementById("p_problem").value,
+              founder: "Founder #" + Math.floor(1000 + Math.random() * 9000),
+              createdAt: serverTimestamp(),
+            });
+            alert("Project successfully published!");
+            window.location.href = "dashboard.html";
+          } catch (error) {
+            console.error("Firebase Error:", error);
+            alert("Error while publishing. Check your Firestore Rules.");
+          }
+        });
+    </script>
+  </body>
+</html>

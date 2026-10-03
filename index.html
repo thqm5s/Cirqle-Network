@@ -1,0 +1,965 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cirqle — Exclusive Networking for European Founders</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&family=Syne:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* --- VARIABLES & RESET --- */
+      :root {
+        --bg-color: #f9f9f7;
+        --text-main: #080808;
+        --text-muted: #6a6a68;
+        --text-ghost: #c0c0be;
+        --glass-bg: rgba(255, 255, 255, 0.55);
+        --glass-border: rgba(255, 255, 255, 0.78);
+        --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.07);
+        --glass-inset: inset 0 1.5px 0 rgba(255, 255, 255, 0.92);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        overflow-x: hidden;
+        line-height: 1.5;
+      }
+
+      h1,
+      h2,
+      h3,
+      .logo {
+        font-family: "Syne", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: -0.05em;
+      }
+
+      /* --- BACKGROUND BLOBS --- */
+      .blob-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .blob {
+        position: absolute;
+        width: 600px;
+        height: 400px;
+        background: #e2e2e0;
+        filter: blur(90px);
+        border-radius: 50%;
+        opacity: 0.6;
+        animation: drift 20s infinite alternate ease-in-out;
+      }
+
+      .blob-1 {
+        top: -10%;
+        left: -10%;
+      }
+      .blob-2 {
+        bottom: 10%;
+        right: -5%;
+        animation-delay: -5s;
+        width: 500px;
+      }
+      .blob-3 {
+        top: 40%;
+        left: 30%;
+        animation-delay: -10s;
+        height: 300px;
+      }
+
+      @keyframes drift {
+        from {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        to {
+          transform: translate(100px, 50px) rotate(15deg);
+        }
+      }
+
+      /* --- REUSABLE GLASSMORPHISM --- */
+      .glass {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px) saturate(160%);
+        -webkit-backdrop-filter: blur(20px) saturate(160%);
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--glass-shadow), var(--glass-inset);
+        border-radius: 24px;
+        transition: transform 0.4s cubic-bezier(0.2, 0, 0.2, 1);
+      }
+
+      .glass-dark {
+        background: rgba(10, 10, 10, 0.88);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+        border-radius: 32px;
+      }
+
+      /* --- LAYOUT --- */
+      section {
+        padding: 100px 5%;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .label {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        margin-bottom: 16px;
+        display: block;
+        letter-spacing: 0.1em;
+      }
+
+      /* --- NAVBAR --- */
+      nav {
+        position: fixed;
+        top: 20px;
+        left: 5%;
+        right: 5%;
+        height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 32px;
+        z-index: 1000;
+        border-radius: 100px !important;
+      }
+
+      .logo {
+        font-weight: 800;
+        font-size: 26px;
+        cursor: pointer;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 40px;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: var(--text-main);
+        font-weight: 500;
+        font-size: 15px;
+        transition: color 0.3s;
+      }
+      .nav-links a:hover {
+        color: var(--text-muted);
+      }
+
+      .btn-pill {
+        padding: 12px 24px;
+        border-radius: 100px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+        display: inline-block;
+      }
+
+      .btn-black {
+        background: var(--text-main);
+        color: white;
+        border: 1px solid var(--text-main);
+      }
+      .btn-black:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+      }
+      .btn-glass:hover {
+        background: rgba(255, 255, 255, 0.8);
+        transform: translateY(-2px);
+      }
+
+      /* --- HERO --- */
+      .hero {
+        padding-top: 220px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .badge-pill {
+        padding: 8px 18px;
+        font-size: 13px;
+        margin-bottom: 40px;
+        border-radius: 100px;
+        font-weight: 500;
+      }
+
+      .hero h1 {
+        font-size: clamp(52px, 7vw, 96px);
+        font-weight: 800;
+        line-height: 0.91;
+        margin-bottom: 30px;
+      }
+
+      .hero h1 span.ghost {
+        color: var(--text-ghost);
+      }
+
+      .hero p {
+        max-width: 440px;
+        color: var(--text-muted);
+        font-weight: 300;
+        font-size: 18px;
+        margin-bottom: 40px;
+      }
+
+      .hero-btns {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 80px;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        width: 100%;
+        max-width: 900px;
+      }
+
+      .stat-card {
+        padding: 32px;
+        text-align: center;
+      }
+      .stat-card h4 {
+        font-family: "Syne";
+        font-size: 26px;
+        margin-bottom: 4px;
+      }
+      .stat-card p {
+        font-size: 14px;
+        color: var(--text-muted);
+        margin: 0;
+      }
+
+      /* --- MARQUEE --- */
+      .marquee-container {
+        overflow: hidden;
+        padding: 28px 0;
+        margin: 40px 0;
+        border-left: none;
+        border-right: none;
+        border-radius: 0;
+      }
+
+      .marquee-content {
+        display: flex;
+        white-space: nowrap;
+        animation: scroll 40s linear infinite;
+      }
+
+      .marquee-content span {
+        font-family: "Syne";
+        font-weight: 700;
+        font-size: 18px;
+        color: var(--text-ghost);
+        text-transform: uppercase;
+        padding: 0 50px;
+        display: flex;
+        align-items: center;
+      }
+
+      .marquee-content span::after {
+        content: "";
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        background: var(--text-ghost);
+        border-radius: 50%;
+        margin-left: 100px;
+      }
+
+      @keyframes scroll {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* --- PROCESS GRID --- */
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0;
+        border-radius: 32px;
+        overflow: hidden;
+      }
+
+      .process-card {
+        padding: 60px 48px;
+        border-right: 1px solid var(--glass-border);
+        transition: background 0.4s;
+      }
+      .process-card:hover {
+        background: rgba(255, 255, 255, 0.4);
+      }
+
+      .process-card:last-child {
+        border-right: none;
+      }
+      .process-card span {
+        font-family: "Syne";
+        font-size: 36px;
+        display: block;
+        margin-bottom: 24px;
+        color: var(--text-ghost);
+        font-weight: 800;
+      }
+      .process-card h3 {
+        font-size: 24px;
+        margin-bottom: 16px;
+      }
+
+      /* --- VALUES --- */
+      .grid-2x2 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+
+      .value-card {
+        padding: 40px;
+        display: flex;
+        gap: 24px;
+        align-items: flex-start;
+      }
+      .value-card:hover {
+        transform: translateY(-5px);
+      }
+      .value-icon {
+        min-width: 52px;
+        height: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        border-radius: 14px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+      }
+
+      /* --- MEMBERS --- */
+      .member-card {
+        padding: 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+      .member-card:hover {
+        transform: translateY(-8px);
+      }
+      .member-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .avatar {
+        width: 54px;
+        height: 54px;
+        border-radius: 50%;
+        background: #ecece8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-family: "Syne";
+      }
+      .member-info h4 {
+        font-family: "DM Sans";
+        text-transform: none;
+        font-size: 18px;
+        letter-spacing: -0.01em;
+        margin-bottom: 2px;
+        font-weight: 600;
+      }
+      .member-info p {
+        font-size: 13px;
+        color: var(--text-muted);
+      }
+      .project-box {
+        background: rgba(255, 255, 255, 0.35);
+        padding: 24px;
+        border-radius: 20px;
+        flex-grow: 1;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+      }
+      .tag-row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .tag {
+        font-size: 11px;
+        padding: 5px 12px;
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 100px;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+      }
+
+      /* --- FAQ --- */
+      .faq-container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .faq-item {
+        border-bottom: 1px solid var(--glass-border);
+        padding: 28px 0;
+        cursor: pointer;
+      }
+      .faq-question {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        font-size: 19px;
+        letter-spacing: -0.02em;
+      }
+      .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition:
+          max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+          margin 0.3s ease;
+        color: var(--text-muted);
+        font-size: 16px;
+        line-height: 1.6;
+      }
+      .faq-item.active .faq-answer {
+        max-height: 200px;
+        margin-top: 18px;
+      }
+      .faq-icon {
+        transition: transform 0.4s;
+        font-size: 24px;
+        font-weight: 300;
+      }
+      .faq-item.active .faq-icon {
+        transform: rotate(45deg);
+      }
+
+      /* --- CTA FINAL --- */
+      .cta-final {
+        text-align: center;
+        padding: 120px 40px;
+      }
+      .cta-final h2 {
+        font-size: clamp(34px, 5.5vw, 68px);
+        margin-bottom: 48px;
+        line-height: 0.95;
+      }
+      .cta-note {
+        margin-top: 24px;
+        font-size: 14px;
+        color: #a0a0a0;
+        font-weight: 300;
+      }
+
+      /* --- FOOTER --- */
+      footer {
+        padding: 40px 5%;
+        margin: 0 5% 40px 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .footer-links {
+        display: flex;
+        gap: 32px;
+      }
+      .footer-links a {
+        text-decoration: none;
+        color: var(--text-muted);
+        font-size: 14px;
+        transition: color 0.3s;
+      }
+      .footer-links a:hover {
+        color: var(--text-main);
+      }
+      .copyright {
+        font-size: 14px;
+        color: var(--text-muted);
+      }
+
+      /* --- RESPONSIVE --- */
+      @media (max-width: 768px) {
+        nav {
+          height: 64px;
+          padding: 0 20px;
+          top: 10px;
+        }
+        .nav-links {
+          display: none;
+        }
+        .grid-3,
+        .grid-2x2,
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+        .process-card {
+          border-right: none;
+          border-bottom: 1px solid var(--glass-border);
+          padding: 40px 30px;
+        }
+        .hero h1 {
+          font-size: 48px;
+        }
+        .hero-btns {
+          flex-direction: column;
+          width: 100%;
+          padding: 0 20px;
+        }
+        .btn-pill {
+          width: 100%;
+          text-align: center;
+        }
+        footer {
+          flex-direction: column;
+          gap: 24px;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="blob-container">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+    </div>
+
+    <nav class="glass">
+      <div class="logo">Cirqle</div>
+      <div class="nav-links">
+        <a href="#concept">Concept</a>
+        <a href="#members">Members</a>
+        <a href="#europe">Europe</a>
+      </div>
+      <a href="apply.html" class="btn-pill glass btn-glass">Apply Now →</a>
+    </nav>
+
+    <section class="hero">
+      <div class="badge-pill glass">
+        Application-only access · Europe · 2025
+      </div>
+      <h1>
+        Build tomorrow<br />
+        <span class="ghost">Inside the silence</span><br />
+        Of Cirqle.
+      </h1>
+      <p>
+        The European network where your actions carry more weight than your
+        diplomas. Join the creative elite aged 18-35.
+      </p>
+
+      <div class="hero-btns">
+        <a href="apply.html" class="btn-pill btn-black"
+          >Submit my application</a
+        >
+        <a href="#" class="btn-pill glass btn-glass">Explore profiles</a>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card glass">
+          <h4>340</h4>
+          <p>selected members</p>
+        </div>
+        <div class="stat-card glass">
+          <h4>12</h4>
+          <p>European countries</p>
+        </div>
+        <div class="stat-card glass">
+          <h4>89%</h4>
+          <p>rejection rate</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="marquee-container glass">
+      <div class="marquee-content">
+        <span>Application</span>
+        <span>Selection</span>
+        <span>Living Portfolio</span>
+        <span>Exclusive Circle</span>
+        <span>Europe</span>
+        <span>Founders</span>
+        <span>Real Projects</span>
+        <span>Ambition</span>
+        <span>Application</span>
+        <span>Selection</span>
+        <span>Living Portfolio</span>
+        <span>Exclusive Circle</span>
+        <span>Europe</span>
+        <span>Founders</span>
+        <span>Real Projects</span>
+        <span>Ambition</span>
+      </div>
+    </div>
+
+    <section id="concept">
+      <span class="label">Methodology</span>
+      <h2 style="font-size: 42px; margin-bottom: 60px">
+        The Cirqle Experience
+      </h2>
+      <div class="grid-3 glass">
+        <div class="process-card">
+          <span>01</span>
+          <h3>Apply</h3>
+          <p style="color: var(--text-muted)">
+            Show us what you're actually building. No CVs, just the project, the
+            metrics, and your vision.
+          </p>
+        </div>
+        <div class="process-card">
+          <span>02</span>
+          <h3>Curate</h3>
+          <p style="color: var(--text-muted)">
+            We select with extreme care. Every application is read manually. 89%
+            are declined.
+          </p>
+        </div>
+        <div class="process-card">
+          <span>03</span>
+          <h3>Access</h3>
+          <p style="color: var(--text-muted)">
+            Join the living ecosystem. An evolving profile and connections that
+            truly impact your future.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="europe">
+      <span class="label">Values</span>
+      <h2 style="font-size: 42px; margin-bottom: 60px">Why Join the Circle</h2>
+      <div class="grid-2x2">
+        <div class="value-card glass">
+          <div class="value-icon">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom: 10px">Zero Noise</h3>
+            <p style="color: var(--text-muted); font-size: 15px">
+              No "networking" for the sake of it. High-level exchanges between
+              builders only.
+            </p>
+          </div>
+        </div>
+        <div class="value-card glass">
+          <div class="value-icon">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+            </svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom: 10px">Proof by Action</h3>
+            <p style="color: var(--text-muted); font-size: 15px">
+              Your project is your identity. We value raw execution over
+              academic prestige.
+            </p>
+          </div>
+        </div>
+        <div class="value-card glass">
+          <div class="value-icon">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom: 10px">Lasting Bonds</h3>
+            <p style="color: var(--text-muted); font-size: 15px">
+              Organic relationships built on mutual growth needs, not follower
+              counts.
+            </p>
+          </div>
+        </div>
+        <div class="value-card glass">
+          <div class="value-icon">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path
+                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+              ></path>
+            </svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom: 10px">Europe First</h3>
+            <p style="color: var(--text-muted); font-size: 15px">
+              Think global from day one. Connect with top talents from Berlin to
+              Milan.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="members">
+      <span class="label">Members</span>
+      <h2 style="font-size: 42px; margin-bottom: 60px">
+        Already in the Cirqle
+      </h2>
+      <div class="grid-3">
+        <div class="member-card glass">
+          <div class="member-header">
+            <div class="avatar">LM</div>
+            <div class="member-info">
+              <h4>Lucas Morel</h4>
+              <p>Paris, France</p>
+            </div>
+          </div>
+          <div class="project-box">
+            <p
+              style="
+                font-size: 12px;
+                font-weight: 700;
+                margin-bottom: 5px;
+                color: var(--text-muted);
+              "
+            >
+              CURRENT PROJECT
+            </p>
+            <p style="font-weight: 600; margin-bottom: 8px">NeoPay</p>
+            <p style="font-size: 14px; color: var(--text-muted)">
+              Cross-border payment infrastructure for West Africa.
+            </p>
+          </div>
+          <div class="tag-row">
+            <span class="tag">Fintech</span>
+            <span class="tag">Series A</span>
+          </div>
+        </div>
+        <div class="member-card glass">
+          <div class="member-header">
+            <div class="avatar" style="background: #d8d8f6">ES</div>
+            <div class="member-info">
+              <h4>Elena Schmidt</h4>
+              <p>Berlin, Germany</p>
+            </div>
+          </div>
+          <div class="project-box">
+            <p
+              style="
+                font-size: 12px;
+                font-weight: 700;
+                margin-bottom: 5px;
+                color: var(--text-muted);
+              "
+            >
+              CURRENT PROJECT
+            </p>
+            <p style="font-weight: 600; margin-bottom: 8px">Klarity AI</p>
+            <p style="font-size: 14px; color: var(--text-muted)">
+              Generative AI simplifying European legal documentation.
+            </p>
+          </div>
+          <div class="tag-row">
+            <span class="tag">SaaS</span>
+            <span class="tag">Early Stage</span>
+          </div>
+        </div>
+        <div class="member-card glass">
+          <div class="member-header">
+            <div class="avatar" style="background: #f6d8d8">MR</div>
+            <div class="member-info">
+              <h4>Marco Rossi</h4>
+              <p>Milan, Italy</p>
+            </div>
+          </div>
+          <div class="project-box">
+            <p
+              style="
+                font-size: 12px;
+                font-weight: 700;
+                margin-bottom: 5px;
+                color: var(--text-muted);
+              "
+            >
+              CURRENT PROJECT
+            </p>
+            <p style="font-weight: 600; margin-bottom: 8px">Vento</p>
+            <p style="font-size: 14px; color: var(--text-muted)">
+              Sustainable micro-mobility using 100% recycled materials.
+            </p>
+          </div>
+          <div class="tag-row">
+            <span class="tag">GreenTech</span>
+            <span class="tag">Bootstrapped</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <span class="label">Support</span>
+      <h2 style="font-size: 42px; margin-bottom: 60px">FAQ</h2>
+      <div class="faq-container">
+        <div class="faq-item">
+          <div class="faq-question">
+            How does the selection work? <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            Our team analyzes your journey and, most importantly, the current
+            state of your project. We look for profiles that "do" more than they
+            "say".
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Is it free? <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            Access to the platform is free for selected members. We prioritize
+            network quality over direct access monetization.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Do I need a launched company? <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            Not necessarily. You must have a concrete project under development
+            (MVP, prototype, active research). Ideas alone are not enough.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            How long does the process take? <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            Every application is reviewed within 7 business days. You will
+            receive a personalized response.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Can I be sponsored by a member? <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-answer">
+            Yes, a current member can endorse your application. This ensures a
+            priority review of your profile.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="cta-final glass-dark">
+        <h2>Step into the<br />Cirqle.</h2>
+        <a
+          href="apply.html"
+          class="btn-pill glass"
+          style="
+            background: white;
+            color: black;
+            font-size: 18px;
+            padding: 20px 40px;
+          "
+          >Apply to Join →</a
+        >
+        <p class="cta-note">Response within 7 days · Free</p>
+      </div>
+    </section>
+
+    <footer class="glass">
+      <div class="logo">Cirqle</div>
+      <div class="footer-links">
+        <a href="#concept">Concept</a>
+        <a href="#">Privacy</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="copyright">© 2025 Cirqle. Europe.</div>
+    </footer>
+
+    <script>
+      // FAQ Accordion
+      document.querySelectorAll(".faq-item").forEach((item) => {
+        item.addEventListener("click", () => {
+          const isActive = item.classList.contains("active");
+          document
+            .querySelectorAll(".faq-item")
+            .forEach((el) => el.classList.remove("active"));
+          if (!isActive) {
+            item.classList.add("active");
+          }
+        });
+      });
+
+      // Simple parallax on blobs on scroll
+      window.addEventListener("scroll", () => {
+        const scrolled = window.pageYOffset;
+        document.querySelector(".blob-1").style.transform =
+          `translate(${scrolled * 0.1}px, ${scrolled * 0.1}px)`;
+        document.querySelector(".blob-2").style.transform =
+          `translate(-${scrolled * 0.05}px, -${scrolled * 0.05}px)`;
+      });
+    </script>
+  </body>
+</html>

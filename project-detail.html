@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Spotlight — Cirqle</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg-color: #f4f4f2;
+        --text-main: #080808;
+        --text-muted: #6a6a68;
+        --glass-bg: rgba(255, 255, 255, 0.7);
+        --glass-border: rgba(255, 255, 255, 0.9);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+      }
+      body {
+        font-family: "DM Sans", sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        line-height: 1.6;
+      }
+
+      nav {
+        padding: 20px 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(244, 244, 242, 0.8);
+        backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      .logo {
+        font-family: "Syne";
+        font-weight: 800;
+        font-size: 22px;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: #000;
+      }
+      .back-btn {
+        text-decoration: none;
+        color: var(--text-muted);
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 60px auto 100px;
+        padding: 0 5%;
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 50px;
+      }
+
+      .project-header {
+        margin-bottom: 40px;
+      }
+      .badge {
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        background: #000;
+        color: #fff;
+        padding: 6px 12px;
+        border-radius: 4px;
+        display: inline-block;
+        margin-bottom: 20px;
+      }
+      h1 {
+        font-family: "Syne";
+        font-size: 52px;
+        text-transform: uppercase;
+        line-height: 0.95;
+        margin-bottom: 20px;
+      }
+
+      .content-section {
+        margin-bottom: 50px;
+      }
+      .content-section h2 {
+        font-family: "Syne";
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--text-muted);
+        margin-bottom: 20px;
+      }
+      .content-section p {
+        font-size: 18px;
+        color: #333;
+        white-space: pre-wrap;
+      }
+
+      /* --- SIDEBAR & COMMENTS --- */
+      .help-card {
+        background: #fff;
+        padding: 30px;
+        border-radius: 24px;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        position: sticky;
+        top: 100px;
+      }
+      .help-card h4 {
+        font-family: "Syne";
+        font-size: 16px;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+      }
+
+      .insight-item {
+        background: #f9f9f7;
+        padding: 15px;
+        border-radius: 16px;
+        margin-bottom: 12px;
+        border: 1px solid #eee;
+        animation: fadeIn 0.3s ease;
+      }
+      .insight-user {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 5px;
+        display: block;
+      }
+      .insight-text {
+        font-size: 14px;
+        color: #333;
+      }
+
+      textarea {
+        width: 100%;
+        height: 100px;
+        padding: 15px;
+        border-radius: 16px;
+        border: 1px solid #ddd;
+        font-family: inherit;
+        font-size: 14px;
+        resize: none;
+        margin-bottom: 15px;
+        background: #fafafa;
+      }
+      textarea:focus {
+        outline: none;
+        border-color: #000;
+        background: #fff;
+      }
+
+      .btn-post {
+        width: 100%;
+        padding: 15px;
+        background: #000;
+        color: #fff;
+        border: none;
+        border-radius: 100px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+      .btn-post:hover {
+        transform: scale(1.02);
+      }
+
+      #loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #f4f4f2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        font-family: "Syne";
+        font-weight: 800;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(5px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 900px) {
+        .container {
+          grid-template-columns: 1fr;
+        }
+        h1 {
+          font-size: 38px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="loading-overlay">LOADING PROJECT...</div>
+
+    <nav>
+      <a href="dashboard.html" class="logo">Cirqle</a>
+      <a href="dashboard.html" class="back-btn">← Back to Dashboard</a>
+    </nav>
+
+    <div class="container">
+      <main>
+        <div class="project-header">
+          <span class="badge" id="p-category">Category</span>
+          <h1 id="p-title">Project Title</h1>
+          <p id="p-founder" style="font-weight: 700; margin-top: 10px">
+            By Founder
+          </p>
+        </div>
+
+        <section class="content-section">
+          <h2>The Vision</h2>
+          <p id="p-vision">Project vision details will appear here...</p>
+        </section>
+
+        <section class="content-section">
+          <h2>The Challenge</h2>
+          <p id="p-problem">Specific problems or needs will appear here...</p>
+        </section>
+      </main>
+
+      <aside>
+        <div class="help-card">
+          <h4>Offer Insight & Help</h4>
+          <p
+            style="
+              font-size: 13px;
+              color: var(--text-muted);
+              margin-bottom: 20px;
+            "
+          >
+            Share a contact, a tool, or feedback to help this project scale.
+          </p>
+
+          <div
+            id="comments-container"
+            style="
+              max-height: 350px;
+              overflow-y: auto;
+              margin-bottom: 20px;
+              padding-right: 5px;
+            "
+          >
+            <p style="font-size: 12px; color: #999; text-align: center">
+              Checking for insights...
+            </p>
+          </div>
+
+          <textarea
+            id="comment-text"
+            placeholder="Your advice, contact or offer..."
+          ></textarea>
+          <button id="btn-offer-help" class="btn-post">Post Insight</button>
+        </div>
+      </aside>
+    </div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import {
+        getFirestore,
+        doc,
+        getDoc,
+        collection,
+        addDoc,
+        query,
+        where,
+        orderBy,
+        onSnapshot,
+        serverTimestamp,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBzDVL-3tQgyfXOJqX5WvkYsEoBq4PBMzM",
+        authDomain: "cirqle-2c3b2.firebaseapp.com",
+        projectId: "cirqle-2c3b2",
+        storageBucket: "cirqle-2c3b2.firebasestorage.app",
+        messagingSenderId: "12313980360",
+        appId: "1:12313980360:web:c262002952f3618bd464fd",
+        measurementId: "G-WS5HN1X6B2",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const projectId = urlParams.get("id");
+
+      if (!projectId) {
+        window.location.href = "dashboard.html";
+      } else {
+        loadProject();
+        loadComments();
+      }
+
+      // CHARGER LES INFOS DU PROJET
+      async function loadProject() {
+        try {
+          const docRef = doc(db, "projects", projectId);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            document.getElementById("p-title").innerText = data.title;
+            document.getElementById("p-category").innerText = data.category;
+            document.getElementById("p-vision").innerText = data.vision;
+            document.getElementById("p-problem").innerText = data.problem;
+            document.getElementById("p-founder").innerText =
+              "By " + data.founder;
+            document.getElementById("loading-overlay").style.display = "none";
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      // CHARGER ET ÉCOUTER LES COMMENTAIRES EN TEMPS RÉEL
+      function loadComments() {
+        const q = query(
+          collection(db, "comments"),
+          where("projectId", "==", projectId),
+          orderBy("createdAt", "asc"),
+        );
+
+        onSnapshot(q, (snapshot) => {
+          const container = document.getElementById("comments-container");
+          container.innerHTML = "";
+
+          if (snapshot.empty) {
+            container.innerHTML =
+              "<p style='font-size: 12px; color: #999; text-align: center;'>No insights yet. Be the first to help!</p>";
+            return;
+          }
+
+          snapshot.forEach((doc) => {
+            const c = doc.data();
+            container.innerHTML += `
+                        <div class="insight-item">
+                            <span class="insight-user">Anonymous Member</span>
+                            <p class="insight-text">${c.text}</p>
+                        </div>
+                    `;
+          });
+          // Scroll automatique vers le bas pour voir le nouveau commentaire
+          container.scrollTop = container.scrollHeight;
+        });
+      }
+
+      // POSTER UN COMMENTAIRE
+      document
+        .getElementById("btn-offer-help")
+        .addEventListener("click", async () => {
+          const input = document.getElementById("comment-text");
+          const text = input.value.trim();
+
+          if (text === "") return;
+
+          try {
+            await addDoc(collection(db, "comments"), {
+              projectId: projectId,
+              text: text,
+              createdAt: serverTimestamp(),
+            });
+            input.value = ""; // Réinitialise le champ
+          } catch (e) {
+            console.error("Error adding comment: ", e);
+            alert(
+              "Writing to 'comments' collection failed. Check Firestore rules.",
+            );
+          }
+        });
+    </script>
+  </body>
+</html>
